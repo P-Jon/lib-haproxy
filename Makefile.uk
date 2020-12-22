@@ -54,7 +54,7 @@ LIBHAPROXY_SRC=$(LIBHAPROXY_ORIGIN)/src
 ################################################################################
 # Sources
 ################################################################################
-LIBHAPROXY_SRCS-$(CONFIG_LIBHAPROXY_MAIN_FUNCTION) += $(LIBHAPROXY_BASE)/main.c|unikraft
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_BASE)/main.c|unikraft
 
 ################################################################################
 # Library includes

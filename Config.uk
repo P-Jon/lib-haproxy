@@ -1,9 +1,3 @@
 menuconfig LIBHAPROXY
 	bool "HAProxy - Reliable, High Performance TCP/HTTP Load Balancer"
 	default y
-
-if LIBHAPROXY
-config LIBHAPROXY_MAIN_FUNCTION
-	bool "Provide main function"
-	default y
-endif
