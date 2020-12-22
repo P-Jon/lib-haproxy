@@ -1,3 +1,9 @@
 menuconfig LIBHAPROXY
-	bool "HAProxy - A high availability, load balancing, and proxying solution for TCP and HTTP-based applications."
+	bool "HAProxy - Reliable, High Performance TCP/HTTP Load Balancer"
 	default y
+
+if LIBHAPROXY
+config LIBHAPROXY_MAIN_FUNCTION
+	bool "Provide main function"
+	default y
+endif
