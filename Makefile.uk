@@ -42,6 +42,7 @@ LIBHAPROXY_BRANCH=2.3
 LIBHAPROXY_VERSION=2.3.2
 LIBHAPROXY_URL=http://www.haproxy.org/download/$(LIBHAPROXY_BRANCH)/src/haproxy-$(LIBHAPROXY_VERSION).tar.gz
 
+
 $(eval $(call fetch,libhaproxy,$(LIBHAPROXY_URL)))
 
 ################################################################################
@@ -49,6 +50,11 @@ $(eval $(call fetch,libhaproxy,$(LIBHAPROXY_URL)))
 ################################################################################
 LIBHAPROXY_SUBDIR=haproxy-$(LIBHAPROXY_VERSION)
 LIBHAPROXY_SRC=$(LIBHAPROXY_ORIGIN)/src
+
+################################################################################
+# Sources
+################################################################################
+LIBHAPROXY_SRCS-$(CONFIG_LIBHAPROXY_MAIN_FUNCTION) += $(LIBHAPROXY_BASE)/main.c|unikraft
 
 ################################################################################
 # Library includes
@@ -67,6 +73,8 @@ LIBHAPROXY_FLAGS += -fomit-frame-pointer \
                         #\ -Wno-
 
 LIBHAPROXY_CFLAGS-y += $(HAPROXY_FLAGS)
+
+LIBHAPROXY_HAPROXY_FLAGS-y += -Dmain=haproxy_main
 
 ################################################################################
 # HAProxy code
