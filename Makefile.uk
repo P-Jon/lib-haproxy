@@ -42,37 +42,38 @@ LIBHAPROXY_BRANCH=2.3
 LIBHAPROXY_VERSION=2.3.2
 LIBHAPROXY_URL=http://www.haproxy.org/download/$(LIBHAPROXY_BRANCH)/src/haproxy-$(LIBHAPROXY_VERSION).tar.gz
 
+LIBHAPROXY_ZIPNAME=haproxy-2.3.2
 
 $(eval $(call fetch,libhaproxy,$(LIBHAPROXY_URL)))
 
 ################################################################################
 # Helpers
 ################################################################################
-LIBHAPROXY_SUBDIR=haproxy-$(LIBHAPROXY_VERSION)
-LIBHAPROXY_SRC=$(LIBHAPROXY_ORIGIN)/src
+LIBHAPROXY_PRIMARY_FOLDER=$(LIBHAPROXY_ORIGIN)/$(LIBHAPROXY_ZIPNAME)
+LIBHAPROXY_SRC=$(LIBHAPROXY_PRIMARY_FOLDER)/src
 
 ################################################################################
 # Sources
 ################################################################################
-LIBHAPROXY_SRCS-y += $(LIBHAPROXY_BASE)/main.c|unikraft
+LIBHAPROXY_SRCS-$(LIBHAPROXY_MAIN_FUNCTION) += $(LIBHAPROXY_BASE)/main.c|unikraft
 
 ################################################################################
 # Library includes
 ################################################################################
-CINCLUDES-$(CONFIG_HAPROXY)   += -I$(LIBHAPROXY_SRC)
+CINCLUDES-$(CONFIG_HAPROXY)   += -I$(LIBHAPROXY_PRIMARY_FOLDER)/include
 
 ################################################################################
 # Global flags
 ################################################################################
-OPTIONS_CFLAGS  += $(if $(HAPROXY_INC),-I$(HAPROXY_INC))
-OPTIONS_LDFLAGS += $(if $(HAPROXY_LIB),-L$(HAPROXY_LIB)) -lslz
+#OPTIONS_CFLAGS  += $(if $(HAPROXY_INC),-I$(HAPROXY_INC))
+#OPTIONS_LDFLAGS += $(if $(HAPROXY_LIB),-L$(HAPROXY_LIB)) -lslz
 
-LIBHAPROXY_FLAGS += -fomit-frame-pointer \
-                        -fPIC -DPRECOMPUTE_TABLES 
+#LIBHAPROXY_FLAGS += -fomit-frame-pointer \
+#                        -fPIC -DPRECOMPUTE_TABLES
                         #\ -Wno-implicit-fallthrough
                         #\ -Wno-
 
-LIBHAPROXY_CFLAGS-y += $(HAPROXY_FLAGS)
+#LIBHAPROXY_CFLAGS-y += $(HAPROXY_FLAGS)
 
 LIBHAPROXY_HAPROXY_FLAGS-y += -Dmain=haproxy_main
 
