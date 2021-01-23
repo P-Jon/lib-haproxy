@@ -1,0 +1,25 @@
+From 8034ce0c599221d6a844be2ee423ae6236613323 Mon Sep 17 00:00:00 2001
+From: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date: Mon, 11 Jan 2021 12:17:18 +0000
+Subject: [PATCH] patches: Fix duplicate import of netinet/tcp.h
+
+---
+ haproxy-2.3.2/include/haproxy/compat.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/haproxy-2.3.2/include/haproxy/compat.h b/haproxy-2.3.2/include/haproxy/compat.h
+index 97cde46..22b1c9c 100644
+--- a/haproxy-2.3.2/include/haproxy/compat.h
++++ b/haproxy-2.3.2/include/haproxy/compat.h
+@@ -32,7 +32,7 @@
+ #include <sys/socket.h>
+ #include <arpa/inet.h>
+ #include <netinet/in.h>
+-#include <netinet/tcp.h>
++//include <netinet/tcp.h>
+ 
+ /* set any optional field in a struct to this type to save ifdefs. Its address
+  * will still be valid but it will not reserve any room nor require any
+-- 
+2.25.1
+

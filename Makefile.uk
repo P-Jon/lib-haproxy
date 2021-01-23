@@ -44,7 +44,10 @@ LIBHAPROXY_URL=http://www.haproxy.org/download/$(LIBHAPROXY_BRANCH)/src/haproxy-
 
 LIBHAPROXY_ZIPNAME=haproxy-2.3.2
 
+LIBHAPROXY_PATCHDIR=$(LIBHAPROXY_BASE)/patches
+
 $(eval $(call fetch,libhaproxy,$(LIBHAPROXY_URL)))
+$(eval $(call patch,liblwip,$(LIBHAPROXY_PATCHDIR),$(LIBHAPROXY_ZIPNAME)))
 
 ################################################################################
 # Helpers
@@ -60,38 +63,43 @@ LIBHAPROXY_SRCS-$(LIBHAPROXY_MAIN_FUNCTION) += $(LIBHAPROXY_BASE)/main.c|unikraf
 ################################################################################
 # Flags
 ################################################################################
+
+# Taking precedent from HAProxy's Makefile (Ln 188)
 LIBHAPROXY_CFLAGS-y += -Wno-unused-parameter \
                        -Wno-address-of-packed-member \
-                       -Wno-sign-compare
-                       
+                       -Wno-sign-compare \
+		               -Wno-missing-field-initializers \
+                       -Wno-unused-label \
+                       -Wno-unused-value \
+                       -Wno-clobbered \
+                       -Wno-array-bounds \
+                       -Wno-cast-function-type
+
 ################################################################################
 # Library includes
 ################################################################################
-
-
 CINCLUDES-$(CONFIG_LIBHAPROXY)   += -I$(LIBHAPROXY_PRIMARY_FOLDER)/include
+LIBHAPROXY_CINCLUDES-y += -DCONFIG_HAPROXY_DATE=\"2020/11/05\"
+LIBHAPROXY_CINCLUDES-y += -DCONFIG_HAPROXY_VERSION=\"$(LIBHAPROXY_VERSION)\"
 
 ################################################################################
 # Global flags
 ################################################################################
-#OPTIONS_CFLAGS  += $(if $(LIBHAPROXY_INC),-I$(LIBHAPROXY_INC))
-#OPTIONS_LDFLAGS += $(if $(LIBHAPROXY_LIB),-L$(LIBHAPROXY_LIB)) -lslz
-
 LIBHAPROXY_HAPROXY_FLAGS-y += -Dmain=haproxy_main
 
 ################################################################################
 # HAProxy code
 ################################################################################
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/51d.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/acl.c      
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/action.c   
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/activity.c 
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/applet.c   
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/arg.c      
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/auth.c     
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/backend.c  
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/base64.c   
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cache.c    
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/acl.c
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/action.c
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/activity.c
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/applet.c
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/arg.c
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/auth.c
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/backend.c
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/base64.c
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cache.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/calltrace.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse-global.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse-listen.c
@@ -101,7 +109,7 @@ LIBHAPROXY_HAPROXY_FLAGS-y += -Dmain=haproxy_main
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/channel.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/check.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/chunk.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/chunk.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cli.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/compression.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/connection.c
@@ -112,14 +120,14 @@ LIBHAPROXY_HAPROXY_FLAGS-y += -Dmain=haproxy_main
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/dns.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/dynbuf.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/eb32sctree.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/eb32tree.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/eb32tree.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/eb64tree.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ebimtree.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ebistree.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ebmbtree.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ebpttree.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ebsttree.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ebtree.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ebtree.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ev_epoll.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ev_evports.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ev_kqueue.c
@@ -162,7 +170,7 @@ LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/haproxy.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/lb_fwrr.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/lb_map.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/listener.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/log.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/log.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/lru.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/mailers.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/map.c
@@ -177,23 +185,23 @@ LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/haproxy.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/payload.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/peers.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/pipe.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/pool.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/protocol.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/pool.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/protocol.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/proto_sockpair.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/proto_tcp.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/proto_udp.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/proto_uxst.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/proxy.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/proxy.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/queue.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/raw_sock.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/regex.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/ring.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/sample.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/sample.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/server.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/session.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/sha1.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/sha1.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/shctx.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/signal.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/signal.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/sink.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/sock.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/sock_inet.c
@@ -207,18 +215,18 @@ LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/haproxy.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/stick_table.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/stream.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/stream_interface.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/task.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/task.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/tcpcheck.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/tcp_act.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/tcp_rules.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/tcp_sample.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/thread.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/time.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/tools.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/tools.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/trace.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/uri_auth.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/vars.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/version.c
+LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/version.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/wdt.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/wurfl.c
 #LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/xprt_handshake.c
