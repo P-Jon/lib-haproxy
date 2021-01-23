@@ -1,0 +1,25 @@
+commit 80e51c286cd7a7121398ef8951ea20d84ce96eac Mon Sep 17 00:00:00 2001
+Author: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date:   Sat Jan 23 01:16:49 2021 +0000
+Subject: [PATCH] patches: adding AF_MAX definition to protocol-h header
+
+---
+ haproxy-2.3.2/include/haproxy/protocol-t.h | 2 +-
+ 1 file changed, 1 insertion(+)
+
+diff --git a/haproxy-2.3.2/include/haproxy/protocol-t.h b/haproxy-2.3.2/include/haproxy/protocol-t.h
+index 1306a32..94dff4e 100644
+--- a/haproxy-2.3.2/include/haproxy/protocol-t.h
++++ b/haproxy-2.3.2/include/haproxy/protocol-t.h
+@@ -33,6 +33,8 @@ struct listener;
+ struct receiver;
+ struct connection;
+ 
++#define AF_MAX 42
++
+ /*
+  * Custom network family for str2sa parsing.  Should be ok to do this since
+  * sa_family_t is standardized as an unsigned integer
+-- 
+2.25.1
+
