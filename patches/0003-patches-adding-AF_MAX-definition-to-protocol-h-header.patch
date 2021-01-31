@@ -5,7 +5,7 @@ Subject: [PATCH] patches: adding AF_MAX definition to protocol-h header
 
 ---
  haproxy-2.3.2/include/haproxy/protocol-t.h | 2 +-
- 1 file changed, 1 insertion(+)
+ 1 file changed, 2 insertion(+)
 
 diff --git a/haproxy-2.3.2/include/haproxy/protocol-t.h b/haproxy-2.3.2/include/haproxy/protocol-t.h
 index 1306a32..94dff4e 100644

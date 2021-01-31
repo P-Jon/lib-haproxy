@@ -1,0 +1,32 @@
+commit 2a1b42fa2409be3d4606880e919e6bb4100fce38 Mon Sep 17 00:00:00 2001
+Author: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date:   Sun Jan 31 15:23:05 2021 +0000
+Subject: [PATCH] patches: Commenting out proprietary-based code
+---
+ haproxy-2.3.2/src/connection.c | 3 +-
+ 1 file changed, 3 insertions(+)
+
+diff --git a/haproxy-2.3.2/src/connection.c b/haproxy-2.3.2/src/connection.c
+index 366bb25..e1f747e 100644
+--- a/haproxy-2.3.2/src/connection.c
++++ b/haproxy-2.3.2/src/connection.c
+@@ -845,6 +845,8 @@ int conn_recv_proxy(struct connection *conn, int flag)
+        return 0;
+ }
+
++#if 0
++
+ /* This handshake handler waits a NetScaler Client IP insertion header
+  * at the beginning of the raw data stream. The header format is
+  * described in doc/netscaler-client-ip-insertion-protocol.txt
+@@ -1047,6 +1049,7 @@ int conn_recv_netscaler_cip(struct connection *conn, int flag)
+        return 0;
+ }
+
++#endif /* 0 */
+
+ int conn_send_socks4_proxy_request(struct connection *conn)
+ {
+-- 
+2.25.1
+

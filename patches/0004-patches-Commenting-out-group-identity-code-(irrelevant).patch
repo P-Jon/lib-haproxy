@@ -1,0 +1,53 @@
+commit 80e51c286cd7a7121398ef8951ea20d84ce96eac Mon Sep 17 00:00:00 2001
+Author: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date:   Sat Jan 23 01:16:49 2021 +0000
+Subject: [PATCH] patches: Commenting out group identity code (irrelevant)
+
+---
+ haproxy-2.3.2/src/haproxy.c | 10 +-
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/haproxy-2.3.2/src/haproxy.c b/haproxy-2.3.2/src/haproxy.c
+index 019cc57..f339b5f 100644
+--- a/haproxy-2.3.2/src/haproxy.c
++++ b/haproxy-2.3.2/src/haproxy.c
+@@ -3030,7 +3030,7 @@ static void *run_thread_poll_loop(void *data)
+        return NULL;
+ }
+
+-/* set uid/gid depending on global settings */
++/* set uid/gid depending on global settings
+ static void set_identity(const char *program_name)
+ {
+        if (global.gid) {
+@@ -3051,7 +3051,7 @@ static void set_identity(const char *program_name)
+                exit(1);
+        }
+ }
+-
++*/
+ int main(int argc, char **argv)
+ {
+        int err, retry;
+@@ -3308,8 +3308,8 @@ int main(int argc, char **argv)
+         * be able to restart the old pids.
+         */
+
+-       if ((global.mode & (MODE_MWORKER | MODE_DAEMON)) == 0)
+-               set_identity(argv[0]);
++       //if ((global.mode & (MODE_MWORKER | MODE_DAEMON)) == 0)
++       //      set_identity(argv[0]);
+
+        /* check ulimits */
+        limit.rlim_cur = limit.rlim_max = 0;
+@@ -3515,7 +3515,7 @@ int main(int argc, char **argv)
+
+                free(global.chroot);
+                global.chroot = NULL;
+-               set_identity(argv[0]);
++               //set_identity(argv[0]);
+
+                /* pass through every cli socket, and check if it's bound to
+                 * the current process and if it exposes listeners sockets.
+--
+2.25.1

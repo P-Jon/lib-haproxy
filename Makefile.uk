@@ -81,11 +81,12 @@ LIBHAPROXY_CFLAGS-y += -Wno-unused-parameter \
 CINCLUDES-$(CONFIG_LIBHAPROXY)   += -I$(LIBHAPROXY_PRIMARY_FOLDER)/include
 LIBHAPROXY_CINCLUDES-y += -DCONFIG_HAPROXY_DATE=\"2020/11/05\"
 LIBHAPROXY_CINCLUDES-y += -DCONFIG_HAPROXY_VERSION=\"$(LIBHAPROXY_VERSION)\"
+LIBHAPROXY_CINCLUDES-y += -DUSE_OBSOLETE_LINKER
 
 ################################################################################
 # Global flags
 ################################################################################
-LIBHAPROXY_HAPROXY_FLAGS-y += -Dmain=haproxy_main
+LIBHAPROXY_HAPROXY_FLAGS-y += -Dhaproxy=haproxy_main
 
 ################################################################################
 # HAProxy code
@@ -103,7 +104,7 @@ LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cache.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/calltrace.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse-global.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse-listen.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse-ssl.c # Return type warnings, undeclared errors etc
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse-ssl.c # Return type warnings, undeclared errors etc --> No need for SSL?
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse-tcp.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse-unix.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/cfgparse.c
@@ -227,6 +228,6 @@ LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/uri_auth.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/vars.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/version.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/wdt.c
-#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/wurfl.c wurfl/wurfl doesnt exist apparently
+#LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/wurfl.c wurfl/wurfl doesnt exist apparently -> Can remain out https://github.com/filosganga/libwurfl
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/xprt_handshake.c
 LIBHAPROXY_SRCS-y += $(LIBHAPROXY_SRC)/xxhash.c
