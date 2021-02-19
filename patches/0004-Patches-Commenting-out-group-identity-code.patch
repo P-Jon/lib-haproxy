@@ -15,8 +15,8 @@ index eb1f139..f339b5f 100644
  #ifdef USE_THREAD
  	global.tune.options |= GTUNE_IDLE_POOL_SHARED;
  #endif
--//	global.tune.options |= GTUNE_STRICT_LIMITS;
-+	global.tune.options |= GTUNE_STRICT_LIMITS;
+-	global.tune.options |= GTUNE_STRICT_LIMITS;
++//	global.tune.options |= GTUNE_STRICT_LIMITS;
  
  	pid = getpid();
  	progname = *argv;
