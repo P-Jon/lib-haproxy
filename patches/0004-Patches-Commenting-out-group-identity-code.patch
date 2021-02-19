@@ -1,0 +1,63 @@
+From 487f3352949cfe93380c1b863dd49c03aa8b2cbc Mon Sep 17 00:00:00 2001
+From: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date: Fri, 19 Feb 2021 17:27:00 +0000
+Subject: [PATCH 3/8] Patches: Commenting out group identity code
+
+---
+ src/haproxy.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/src/haproxy.c b/src/haproxy.c
+index eb1f139..f339b5f 100644
+--- a/src/haproxy.c
++++ b/src/haproxy.c
+@@ -1600,7 +1600,7 @@ static void init(int argc, char **argv)
+ #ifdef USE_THREAD
+ 	global.tune.options |= GTUNE_IDLE_POOL_SHARED;
+ #endif
+-//	global.tune.options |= GTUNE_STRICT_LIMITS;
++	global.tune.options |= GTUNE_STRICT_LIMITS;
+ 
+ 	pid = getpid();
+ 	progname = *argv;
+@@ -3030,7 +3030,7 @@ static void *run_thread_poll_loop(void *data)
+ 	return NULL;
+ }
+ 
+-/* set uid/gid depending on global settings */
++/* set uid/gid depending on global settings 
+ static void set_identity(const char *program_name)
+ {
+ 	if (global.gid) {
+@@ -3051,7 +3051,7 @@ static void set_identity(const char *program_name)
+ 		exit(1);
+ 	}
+ }
+-
++*/
+ int main(int argc, char **argv)
+ {
+ 	int err, retry;
+@@ -3308,8 +3308,8 @@ int main(int argc, char **argv)
+ 	 * be able to restart the old pids.
+ 	 */
+ 
+-	if ((global.mode & (MODE_MWORKER | MODE_DAEMON)) == 0)
+-		set_identity(argv[0]);
++	//if ((global.mode & (MODE_MWORKER | MODE_DAEMON)) == 0)
++	//	set_identity(argv[0]);
+ 
+ 	/* check ulimits */
+ 	limit.rlim_cur = limit.rlim_max = 0;
+@@ -3515,7 +3515,7 @@ int main(int argc, char **argv)
+ 
+ 		free(global.chroot);
+ 		global.chroot = NULL;
+-		set_identity(argv[0]);
++		//set_identity(argv[0]);
+ 
+ 		/* pass through every cli socket, and check if it's bound to
+ 		 * the current process and if it exposes listeners sockets.
+-- 
+2.25.1
+

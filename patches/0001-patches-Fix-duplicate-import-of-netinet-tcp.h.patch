@@ -4,13 +4,13 @@ Date: Mon, 11 Jan 2021 12:17:18 +0000
 Subject: [PATCH] patches: Fix duplicate import of netinet/tcp.h
 
 ---
- haproxy-2.3.2/include/haproxy/compat.h | 2 +-
+ include/haproxy/compat.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/haproxy-2.3.2/include/haproxy/compat.h b/haproxy-2.3.2/include/haproxy/compat.h
+diff --git a/include/haproxy/compat.h b/include/haproxy/compat.h
 index 97cde46..22b1c9c 100644
---- a/haproxy-2.3.2/include/haproxy/compat.h
-+++ b/haproxy-2.3.2/include/haproxy/compat.h
+--- a/include/haproxy/compat.h
++++ b/include/haproxy/compat.h
 @@ -32,7 +32,7 @@
  #include <sys/socket.h>
  #include <arpa/inet.h>

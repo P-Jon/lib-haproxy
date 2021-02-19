@@ -1,0 +1,31 @@
+From b8b663801294edfd7f6dd9621cc5873f9d59071d Mon Sep 17 00:00:00 2001
+From: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date: Fri, 19 Feb 2021 17:32:43 +0000
+Subject: [PATCH 8/8] Patches: commenting out proprietary code
+
+---
+ src/xprt_handshake.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/xprt_handshake.c b/src/xprt_handshake.c
+index 752a4f3..d9a5858 100644
+--- a/src/xprt_handshake.c
++++ b/src/xprt_handshake.c
+@@ -57,12 +57,13 @@ static struct task *xprt_handshake_io_cb(struct task *t, void *bctx, unsigned sh
+ 		}
+ 
+ 	if (conn->flags & CO_FL_ACCEPT_CIP)
++		#if 0
+ 		if (!conn_recv_netscaler_cip(conn, CO_FL_ACCEPT_CIP)) {
+ 			ctx->xprt->subscribe(conn, ctx->xprt_ctx, SUB_RETRY_RECV,
+ 			    &ctx->wait_event);
+ 			goto out;
+ 		}
+-
++		#endif /* 0 */
+ 	if (conn->flags & CO_FL_ACCEPT_PROXY)
+ 		if (!conn_recv_proxy(conn, CO_FL_ACCEPT_PROXY)) {
+ 			ctx->xprt->subscribe(conn, ctx->xprt_ctx, SUB_RETRY_RECV,
+-- 
+2.25.1
+

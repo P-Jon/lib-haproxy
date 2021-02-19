@@ -1,0 +1,34 @@
+From 50daa2453835b1471b1385d2460966018162bbd4 Mon Sep 17 00:00:00 2001
+From: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date: Fri, 19 Feb 2021 17:28:50 +0000
+Subject: [PATCH 5/8] Commenting out group identity code mworker
+
+---
+ src/mworker-prog.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/mworker-prog.c b/src/mworker-prog.c
+index e77317f..53c1608 100644
+--- a/src/mworker-prog.c
++++ b/src/mworker-prog.c
+@@ -93,7 +93,7 @@ int mworker_ext_launch_all()
+ 				mworker_cleanlisteners();
+ 				mworker_cleantasks();
+ 
+-				/* setgid / setuid */
++				/* setgid / setuid 
+ 				if (child->gid != -1) {
+ 					if (getgroups(0, NULL) > 0 && setgroups(0, NULL) == -1)
+ 						ha_warning("[%s.main()] Failed to drop supplementary groups. Using 'gid'/'group'"
+@@ -109,7 +109,7 @@ int mworker_ext_launch_all()
+ 					ha_alert("[%s.main()] Cannot set uid %d.\n", child->command[0], child->gid);
+ 					exit(1);
+ 				}
+-
++				*/
+ 				execvp(child->command[0], child->command);
+ 
+ 				ha_alert("Cannot execute %s: %s\n", child->command[0], strerror(errno));
+-- 
+2.25.1
+
