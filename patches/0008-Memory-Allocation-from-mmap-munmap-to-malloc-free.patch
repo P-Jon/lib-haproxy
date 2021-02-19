@@ -1,0 +1,53 @@
+From e6d993ea7902b7d989538ccf863e1421a804e4d3 Mon Sep 17 00:00:00 2001
+From: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date: Fri, 19 Feb 2021 17:31:47 +0000
+Subject: [PATCH 7/8] Memory Allocation from mmap/munmap to malloc/free
+
+---
+ src/shctx.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/src/shctx.c b/src/shctx.c
+index f4002a4..0b97100 100644
+--- a/src/shctx.c
++++ b/src/shctx.c
+@@ -316,8 +316,7 @@ int shctx_init(struct shared_context **orig_shctx, int maxblocks, int blocksize,
+ 		maptype = MAP_SHARED;
+ #endif
+ 
+-	shctx = (struct shared_context *)mmap(NULL, sizeof(struct shared_context) + extra + (maxblocks * (sizeof(struct shared_block) + blocksize)),
+-	                                      PROT_READ | PROT_WRITE, maptype | MAP_ANON, -1, 0);
++	shctx = (struct shared_context *)malloc(sizeof(struct shared_context) + extra + (maxblocks * (sizeof(struct shared_block) + blocksize)));
+ 	if (!shctx || shctx == MAP_FAILED) {
+ 		shctx = NULL;
+ 		ret = SHCTX_E_ALLOC_CACHE;
+@@ -330,7 +329,7 @@ int shctx_init(struct shared_context **orig_shctx, int maxblocks, int blocksize,
+ 	if (maptype == MAP_SHARED) {
+ #ifdef USE_PTHREAD_PSHARED
+ 		if (pthread_mutexattr_init(&attr)) {
+-			munmap(shctx, sizeof(struct shared_context) + extra + (maxblocks * (sizeof(struct shared_block) + blocksize)));
++			free(shctx);
+ 			shctx = NULL;
+ 			ret = SHCTX_E_INIT_LOCK;
+ 			goto err;
+@@ -338,7 +337,7 @@ int shctx_init(struct shared_context **orig_shctx, int maxblocks, int blocksize,
+ 
+ 		if (pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED)) {
+ 			pthread_mutexattr_destroy(&attr);
+-			munmap(shctx, sizeof(struct shared_context) + extra + (maxblocks * (sizeof(struct shared_block) + blocksize)));
++			free(shctx);
+ 			shctx = NULL;
+ 			ret = SHCTX_E_INIT_LOCK;
+ 			goto err;
+@@ -346,7 +345,7 @@ int shctx_init(struct shared_context **orig_shctx, int maxblocks, int blocksize,
+ 
+ 		if (pthread_mutex_init(&shctx->mutex, &attr)) {
+ 			pthread_mutexattr_destroy(&attr);
+-			munmap(shctx, sizeof(struct shared_context) + extra + (maxblocks * (sizeof(struct shared_block) + blocksize)));
++			free(shctx);
+ 			shctx = NULL;
+ 			ret = SHCTX_E_INIT_LOCK;
+ 			goto err;
+-- 
+2.25.1
+

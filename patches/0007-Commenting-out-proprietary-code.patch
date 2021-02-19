@@ -1,0 +1,34 @@
+From 580b100f0af0a748beb73161b9ed525b151e0758 Mon Sep 17 00:00:00 2001
+From: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date: Fri, 19 Feb 2021 17:30:02 +0000
+Subject: [PATCH 6/8] Commenting out proprietary code
+
+---
+ src/connection.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/connection.c b/src/connection.c
+index 366bb25..7d822bb 100644
+--- a/src/connection.c
++++ b/src/connection.c
+@@ -844,7 +844,7 @@ int conn_recv_proxy(struct connection *conn, int flag)
+ 	conn->flags |= CO_FL_ERROR;
+ 	return 0;
+ }
+-
++#if 0
+ /* This handshake handler waits a NetScaler Client IP insertion header
+  * at the beginning of the raw data stream. The header format is
+  * described in doc/netscaler-client-ip-insertion-protocol.txt
+@@ -1046,7 +1046,7 @@ int conn_recv_netscaler_cip(struct connection *conn, int flag)
+ 	conn->flags |= CO_FL_ERROR;
+ 	return 0;
+ }
+-
++#endif /* 0 */
+ 
+ int conn_send_socks4_proxy_request(struct connection *conn)
+ {
+-- 
+2.25.1
+
