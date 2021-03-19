@@ -6,4 +6,9 @@ if LIBHAPROXY
 config LIBHAPROXY_MAIN_FUNCTION
 	bool "Provide main function"
 	default n
+
+config LIBHAPROXY_HTTP_SSL
+	bool "Include SSL functionality with OpenSSL"
+	default n
 endif
+

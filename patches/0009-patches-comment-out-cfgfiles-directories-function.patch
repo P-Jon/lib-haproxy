@@ -1,0 +1,42 @@
+From 133a7cfc53814b01f1d6edec8dbbcb3de686ad8d Mon Sep 17 00:00:00 2001
+From: Jonathon Cross <j.cross3@lancaster.ac.uk>
+Date: Tue, 23 Feb 2021 12:59:30 +0000
+Subject: [PATCH] patches: comment out cfgfiles directories function
+
+---
+ src/haproxy.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/haproxy.c b/src/haproxy.c
+index f3c6a55..9f513cf 100644
+--- a/src/haproxy.c
++++ b/src/haproxy.c
+@@ -1051,6 +1051,7 @@ static void stdio_quiet(int fd)
+  * It adds only files with .cfg extension.
+  * It doesn't add files with name starting with '.'
+  */
++#if 0
+ static void cfgfiles_expand_directories(void)
+ {
+ 	struct wordlist *wl, *wlb;
+@@ -1136,7 +1137,7 @@ next_dir_entry:
+ 
+ 	free(err);
+ }
+-
++#endif /* 0 */
+ /*
+  * copy and cleanup the current argv
+  * Remove the -sf /-st / -x parameters
+@@ -1830,7 +1831,7 @@ static void init(int argc, char **argv)
+ 		struct buffer *trash = get_trash_chunk();
+ 
+ 		/* handle cfgfiles that are actually directories */
+-		cfgfiles_expand_directories();
++		//cfgfiles_expand_directories();
+ 
+ 		if (LIST_ISEMPTY(&cfg_cfgfiles))
+ 			usage(progname);
+-- 
+2.25.1
+
